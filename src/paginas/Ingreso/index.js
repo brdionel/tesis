@@ -1,0 +1,212 @@
+/* eslint no-use-before-define: 0 */
+import React, { useState, useEffect, useContext } from 'react'
+import moment from 'moment';
+import '../../index.css'
+import { Formik, Form, Field, useField, useFormikContext } from 'formik';
+import * as Yup from 'yup'
+import './ingreso.css'
+import Wrapper from '../../componentes/Wrapper'
+import ContextoIngresos from '../../contextos/ingresos'
+import Contexto from '../../contextos/ingresos';
+import IngresoItem from '../../componentes/IngresoItem'
+
+const MyTextInput = ({ label, ...props }) => {
+  // useField() returns [formik.getFieldProps(), formik.getFieldMet()]
+  // which we can spread on <input> and alse replace ErrorMessage entirely
+  const [field, meta] = useField(props)
+  return (
+    <>
+      <label htmlFor={props.id || props.name}>{label}</label>
+      <input className={meta.touched && meta.error? "input_error": null} {...field} {...props}/>
+      {meta.touched && meta.error ? (
+        <div className="error">{meta.error}</div>
+      ) : null}
+    </>
+  )
+}
+
+const MyCheckBox = ({ children, ...props }) => {
+  const [field, meta] = useField({ ...props, type: "checkbox" })
+  return (
+    <>
+      <label className="checkbox">
+        <input {...field} {...props} type="checkbox"/>
+        {children}
+      </label>
+      {meta.touched && meta.error? (
+        <div className="error">{meta.error}</div>
+      ) :null}
+    </>
+  )
+}
+
+
+export default function Ingreso() {
+  
+  const {ingresos, setIngresos} = useContext(ContextoIngresos)
+  console.log('***ingresos')
+  console.log(ingresos)
+  console.log(setIngresos)
+  const initialValues = {
+    fecha: moment().format('L'),
+    hora: moment().format('LT'),
+    nombre: '',
+    apellido: '',
+    temperatura: '',
+    estrecho: '',
+    sintomas: false,
+    firma: false
+  }
+
+  const [register, setRegister] = useState(true)
+
+  return (
+    <Wrapper>
+      <div className="layout">
+      <div className="ingreso_container">
+        <div className="form_container">
+          <Formik
+            initialValues = {initialValues}
+            validationSchema={Yup.object({
+              nombre: Yup.string()
+                .max(30, "El nombre debe contener 30 caracteres o menos")
+                .required("Requerido"),
+              apellido: Yup.string()
+                .max(30, "El apellido debe contener 40 caracteres o menos")
+                .required("Requerido"),
+              temperatura: Yup.string()
+                .required("Requerido"),
+              firma: Yup.boolean()
+                .required("Requrido")
+                .oneOf([true], "Debes aceptar las condiciones para ingresar.")
+            })}
+            onSubmit = {async (values, { setSubmitting, resetForm }) => {
+              await new Promise(r => setTimeout(r, 1500))
+              alert(JSON.stringify(values, null, 2));
+              resetForm({ values: '' })
+              setIngresos(prevState => prevState.concat(values))
+            }}
+          >
+            {({ isSubmitting, resetForm }) => (
+              <Form>
+                <fieldset className="form-fieldset">
+                  <legend>Usuario Registrado</legend>
+                  <div>
+                    <MyTextInput
+                      label="Fecha "
+                      name="fecha"
+                      type="text"
+                      disabled 
+                    />
+                  </div>
+                  <div>
+                    <MyTextInput
+                      label="Hora "
+                      name="hora"
+                      type="text"
+                      disabled
+                      className="campo"  
+                    />
+                  </div>
+                  <div>
+                    <MyTextInput
+                      label="Nombre "
+                      name="nombre"
+                      type="text"
+                      className="campo"  
+                    />
+                  </div>
+                  <div>
+                    <MyTextInput
+                      label="Apellido "
+                      name="apellido"
+                      type="text"
+                    />
+                  </div>
+                  <div>
+                    <MyTextInput
+                      label="Temperatura "
+                      name="temperatura"
+                      type="text"
+                      className="campo"  
+                    />
+                  </div>
+                  <div className="radio-group">
+                  <div id="my-radio-group">Es contacto estrecho de un paciente COVID positivo?</div>
+                  <div role="group" aria-labelledby="my-radio-group">
+                    <label>
+                      <Field type="radio" name="estrecho" value="Si" />
+                      Si
+                    </label>
+                    <label>
+                      <Field type="radio" name="estrecho" value="No" />
+                      No
+                    </label>
+                  </div>
+                  </div>
+                  <div className="radio-group">
+                    <div id="my-radio-group">Tiene algún síntoma compatible con los de COVID-19?</div>
+                    <div role="group" aria-labelledby="my-radio-group">
+                      <label>
+                        <Field type="radio" name="sintomas" value="Si" />
+                        Si
+                      </label>
+                      <label>
+                        <Field type="radio" name="sintomas" value="No" />
+                        No
+                      </label>
+                    </div>
+                  </div>
+                  <div>
+                    <MyCheckBox name="firma" className="campo"  >
+                      Firma
+                    </MyCheckBox>
+                  </div>
+                  <div>
+                    <button type="submit" disabled={isSubmitting}> Ingresar </button>
+                    <button type="reset" onClick={resetForm}> Limpiar </button>                 
+                  </div>
+                </fieldset>  
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </div>
+      <div>
+            <h1 className="titleIngresos">Ingresos</h1>
+          {
+            ingresos.map(ingreso => 
+              <IngresoItem {...ingreso} />
+            )
+          }
+      </div>
+      </div>
+    {/* <hr/>
+    <Table striped bordered hover>
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>DNI</th>
+        </tr>
+      </thead>
+      <tbody>
+        {console.log('ingresos en table')}
+        {console.log(ingresos)}
+        {ingresos && ingresos.map(ingreso => (
+            <tr>
+              <td>{ingreso.fecha}</td>
+              <td>{ingreso.hora}</td>
+              <td>{ingreso.nombre}</td>
+              <td>{ingreso.apellido}</td>
+              <td>{ingreso.dni}</td>
+            </tr>
+        ))
+        }
+      </tbody>
+    </Table> */}
+    </Wrapper>
+  )
+}
