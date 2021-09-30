@@ -80,6 +80,7 @@ export default function Ingreso() {
             validationSchema={Yup.object({
               nombre: Yup.string()
                 .max(30, "El nombre debe contener 30 caracteres o menos")
+                .min(3, "El nombre debe contener mas de 3 caracteres")
                 .required("Requerido"),
               apellido: Yup.string()
                 .max(30, "El apellido debe contener 40 caracteres o menos")
