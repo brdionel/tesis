@@ -61,8 +61,3 @@ button[type="submit"] {
   flex-direction: column;
   align-items: flex-start;
 }
-
-.select_grupoPersona {
-  padding: 1.5em 2em;
-  border: 1px solid #000
-}

@@ -1,0 +1,40 @@
+.ingresoItemContainer {
+  width: 100%;
+  padding: .5em 1em;
+  border: none;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.ingresoItemContainer .fecha_hora{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.ingresoItemContainer .fecha {
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+.ingresoItemContainer .hora {
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+.datosPersona {
+  text-align:left;
+  margin-left: 1.5em;
+  font-size: .7em;
+}
+
+.datosPersona .nombre {
+  font-weight: bold;
+  font-size: .9rem;
+  color: #333;
+  margin: 0;
+  margin-bottom: .5em;
+}
+

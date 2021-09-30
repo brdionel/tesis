@@ -40,24 +40,13 @@ const MyCheckBox = ({ children, ...props }) => {
   )
 }
 
-const MySelect = ({ label, ...props }) => {
-  const [field, meta] = useField(props);
-  return (
-    <div>
-      <label htmlFor={props.id || props.name}>{label}</label>
-      <select {...field} {...props} />
-      {meta.touched && meta.error ? (
-        <div className="error">{meta.error}</div>
-      ) : null}
-    </div>
-  );
-};
-
 
 export default function Ingreso() {
   
   const {ingresos, setIngresos} = useContext(ContextoIngresos)
-  const [grupo, setGrupo] = useState("")
+  console.log('***ingresos')
+  console.log(ingresos)
+  console.log(setIngresos)
   const initialValues = {
     fecha: moment().format('L'),
     hora: moment().format('LT'),
@@ -67,10 +56,6 @@ export default function Ingreso() {
     estrecho: '',
     sintomas: false,
     firma: false
-  }
-
-  const handleGroupChange = (e) => {
-    console.log(e)
   }
 
   const [register, setRegister] = useState(true)
@@ -89,8 +74,6 @@ export default function Ingreso() {
               apellido: Yup.string()
                 .max(30, "El apellido debe contener 40 caracteres o menos")
                 .required("Requerido"),
-              grupoPersona: Yup.string()
-                .required("Requerido"),
               temperatura: Yup.string()
                 .required("Requerido"),
               firma: Yup.boolean()
@@ -104,7 +87,7 @@ export default function Ingreso() {
               setIngresos(prevState => prevState.concat(values))
             }}
           >
-            {({ isSubmitting, resetForm, handleChange }) => (
+            {({ isSubmitting, resetForm }) => (
               <Form>
                 <fieldset className="form-fieldset">
                   <legend>Usuario Registrado</legend>
@@ -139,19 +122,6 @@ export default function Ingreso() {
                       name="apellido"
                       type="text"
                     />
-                  </div>
-                  <div>
-                    aca va el div dinamico, segun lo que seleccion en en el select
-                    <div className="select_grupoPersona">
-                    <MySelect label="¿A qué grupo pertenece?" name="grupoPersona" onChage={handleGroupChange}>
-                      <option value="">Elegir</option>
-                      <option value="empleado">Empleado</option>
-                      <option value="proveedor">Proveedor</option>
-                      <option value="cliente">Cliente</option>
-                      <option value="visita">Visita</option>
-                    </MySelect>
-                    <p>{grupo}</p>
-                    </div>
                   </div>
                   <div>
                     <MyTextInput
