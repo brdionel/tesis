@@ -15,7 +15,7 @@ const MyTextInput = ({ label, ...props }) => {
   const [field, meta] = useField(props)
   return (
     <>
-      <label htmlFor={props.id || props.name}>{label}</label>
+      <label className="label_selectGroup" htmlFor={props.id || props.name}>{label}</label>
       <input className={meta.touched && meta.error? "input_error": null} {...field} {...props}/>
       {meta.touched && meta.error ? (
         <div className="error">{meta.error}</div>
@@ -39,18 +39,18 @@ const MyCheckBox = ({ children, ...props }) => {
   )
 }
 
-// const MySelect = ({ label, ...props }) => {
-//   const [field, meta] = useField(props);
-//   return (
-//     <div>
-//       <label htmlFor={props.id || props.name}>{label}</label>
-//       <select {...field} {...props} />
-//       {meta.touched && meta.error ? (
-//         <div className="error">{meta.error}</div>
-//       ) : null}
-//     </div>
-//   );
-// };
+const MySelect = ({ label, ...props }) => {
+  const [field, meta] = useField(props);
+  return (
+    <div>
+      <label htmlFor={props.id || props.name}>{label}</label>
+      <select {...field} {...props} />
+      {meta.touched && meta.error ? (
+        <div className="error">{meta.error}</div>
+      ) : null}
+    </div>
+  );
+};
 
 
 export default function Ingreso() {
@@ -65,7 +65,13 @@ export default function Ingreso() {
     temperatura: '',
     estrecho: '',
     sintomas: false,
-    firma: false
+    firma: false, 
+    grupoPersona: '',
+    emailEmpresa: "",
+    sector: "",
+    proveedorEmpresa: "",
+    clienteEmpresa: "",
+    motivoVisita: ""
   }
 
   // const [register, setRegister] = useState(true)
@@ -91,7 +97,10 @@ export default function Ingreso() {
                 .required("Requerido"),
               firma: Yup.boolean()
                 .required("Requrido")
-                .oneOf([true], "Debes aceptar las condiciones para ingresar.")
+                .oneOf([true], "Debes aceptar las condiciones para ingresar."),
+              grupoPersona: Yup.string()
+                .required("Requrido")
+                .oneOf(["empleado", "proveedor", "cliente", "visita"], "Debes seleccionar uno")
             })}
             onSubmit = {async (values, { setSubmitting, resetForm }) => {
               await new Promise(r => setTimeout(r, 1500))
@@ -100,9 +109,10 @@ export default function Ingreso() {
               setIngresos(prevState => prevState.concat(values))
             }}
           >
-            {({ isSubmitting, resetForm }) => (
+            {({ isSubmitting, resetForm, values }) => (
               <Form>
                 <fieldset className="form-fieldset">
+                  { console.log('***values: ', values)}
                   <legend>Usuario Registrado</legend>
                   <div>
                     <MyTextInput
@@ -136,19 +146,73 @@ export default function Ingreso() {
                       type="text"
                     />
                   </div>
-                  {/* <div>
-                    aca va el div dinamico, segun lo que seleccion en en el select
+                  <div className="contenedor_dinamico">
                     <div className="select_grupoPersona">
-                    <MySelect label="¿A qué grupo pertenece?" name="grupoPersona" onChage={handleGroupChange}>
+                    <MySelect label="¿A qué grupo pertenece?" name="grupoPersona" >
                       <option value="">Elegir</option>
                       <option value="empleado">Empleado</option>
                       <option value="proveedor">Proveedor</option>
                       <option value="cliente">Cliente</option>
                       <option value="visita">Visita</option>
                     </MySelect>
-                    <p>{grupo}</p>
                     </div>
-                  </div> */}
+                    <div className="inputsGrupoPeronas">
+                      {
+                        values.grupoPersona === 'empleado' && <>
+                          <div className="inputsGrupoPeronas_emplado">
+                            <MyTextInput
+                              label="Email de Autoneum "
+                              name="emailEmpresa"
+                              type="text"
+                              className="campo"  
+                            />
+                            <MyTextInput
+                              label="Sector:  "
+                              name="sector"
+                              type="text"
+                              className="campo"  
+                            />
+                          </div>
+                        </>
+                      }
+                      {
+                        values.grupoPersona === 'proveedor' && <>
+                        <div className="inputsGrupoPeronas_proveedor">
+                          <MyTextInput
+                            label="Empresa"
+                            name="proveedorEmpresa"
+                            type="text"
+                            className="campo"  
+                          />
+                        </div>
+                      </>
+                      }
+                      {
+                        values.grupoPersona === 'cliente' && <>
+                        <div className="inputsGrupoPeronas_cliente">
+                          <MyTextInput
+                            label="Empresa"
+                            name="clienteEmpresa"
+                            type="text"
+                            className="campo"  
+                          />
+                        </div>
+                      </>
+                      }
+                      {
+                        values.grupoPersona === 'visita' && <>
+                        <div className="inputsGrupoPeronas_visita">
+                          <MyTextInput
+                            label="Motivo de la visita"
+                            name="motivoVisita"
+                            type="text"
+                            className="campo"  
+                          />
+                        </div>
+                      </>
+                      }
+                    </div>
+                  </div>
                   <div>
                     <MyTextInput
                       label="Temperatura "

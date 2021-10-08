@@ -1,7 +1,7 @@
 import React from 'react'
 import './IngresoItem.css'
 
-export default function index({nombre, apellido, fecha, hora, temperatura, sintomas, estrecho}) {
+export default function index({nombre, apellido, fecha, hora, temperatura, sintomas, estrecho, grupoPersona, ...props}) {
   return (
     <div className="ingresoItemContainer">
       <div className="fecha_hora">
@@ -9,7 +9,9 @@ export default function index({nombre, apellido, fecha, hora, temperatura, sinto
         <span className="hora">{hora}</span>
       </div>
       <div className="datosPersona">
-        <p className="nombre">{`${nombre} ${apellido}`}</p>
+        <p className="nombre">
+          {`${nombre} ${apellido} - ${grupoPersona.toUpperCase()}`}
+        </p>
         <p className="temperatura">{`Temperatura: ${temperatura}°`}</p>
         <p className="sintomas">{`Sintomas: ${sintomas} - Contacto Estrecho: ${estrecho} `}</p>
       </div>

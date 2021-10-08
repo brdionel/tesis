@@ -8,7 +8,13 @@ const ingresosBase = [{
   temperatura: '37',
   estrecho: "No",
   sintomas: "No",
-  firma: "Si"
+  firma: "Si",
+  grupoPersona: "EMPLEADO",
+  emailEmpresa: "bruno@autoneum.com",
+  sector: "Finanzas",
+  proveedorEmpresa: "",
+  clienteEmpresa: "",
+  motivoVisita: ""
 }]
 
 const Contexto = React.createContext([])
