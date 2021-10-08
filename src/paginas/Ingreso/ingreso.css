@@ -22,7 +22,7 @@ input[type="text"] {
   border-radius: 10px;
 }
 input {
-  margin-top: 2rem;
+  margin-top: .5rem;
 }
 
 .layout{
@@ -83,6 +83,13 @@ button[type="submit"] {
   flex-direction: column;
   align-items: flex-start;
   animation: .5s fadeInKeyframes ease;
+}
+
+.contiene_inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: .5em;
 }
 
 .inputsGrupoPeronas_emplado .campo, .inputsGrupoPeronas_proveedor .campo, .inputsGrupoPeronas_cliente .campo, .inputsGrupoPeronas_visita .campo{

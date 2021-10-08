@@ -74,8 +74,6 @@ export default function Ingreso() {
     motivoVisita: ""
   }
 
-  // const [register, setRegister] = useState(true)
-
   return (
     <Wrapper>
       <div className="layout">
@@ -114,7 +112,7 @@ export default function Ingreso() {
                 <fieldset className="form-fieldset">
                   { console.log('***values: ', values)}
                   <legend>Usuario Registrado</legend>
-                  <div>
+                  <div className="contiene_inputs">
                     <MyTextInput
                       label="Fecha "
                       name="fecha"
@@ -122,7 +120,7 @@ export default function Ingreso() {
                       disabled 
                     />
                   </div>
-                  <div>
+                  <div className="contiene_inputs">
                     <MyTextInput
                       label="Hora "
                       name="hora"
@@ -131,7 +129,7 @@ export default function Ingreso() {
                       className="campo"  
                     />
                   </div>
-                  <div>
+                  <div className="contiene_inputs">
                     <MyTextInput
                       label="Nombre "
                       name="nombre"
@@ -139,7 +137,7 @@ export default function Ingreso() {
                       className="campo"  
                     />
                   </div>
-                  <div>
+                  <div className="contiene_inputs">
                     <MyTextInput
                       label="Apellido "
                       name="apellido"
@@ -213,7 +211,7 @@ export default function Ingreso() {
                       }
                     </div>
                   </div>
-                  <div>
+                  <div className="contiene_inputs">
                     <MyTextInput
                       label="Temperatura "
                       name="temperatura"
@@ -247,7 +245,7 @@ export default function Ingreso() {
                       </label>
                     </div>
                   </div>
-                  <div>
+                  <div className="contiene_inputs">
                     <MyCheckBox name="firma" className="campo"  >
                       Firma
                     </MyCheckBox>
