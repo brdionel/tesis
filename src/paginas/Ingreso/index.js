@@ -297,6 +297,7 @@ export default function Ingreso() {
         }
       </tbody>
     </Table> */}
+    
     </Wrapper>
   )
 }
